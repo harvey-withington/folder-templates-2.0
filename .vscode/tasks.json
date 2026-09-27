@@ -11,8 +11,11 @@
     {
       "label": "app: build (debug)",
       "detail": "Go build with the Wails dev tag and optimizations off, for Delve",
-      "type": "shell",
-      "command": "go build -tags dev -gcflags \"all=-N -l\" -o build/bin/FolderTemplates-debug.exe .",
+      // A process, not a shell: Windows PowerShell re-splits "all=-N -l" into
+      // two arguments, and go then rejects the stray -l.
+      "type": "process",
+      "command": "go",
+      "args": ["build", "-tags", "dev", "-gcflags", "all=-N -l", "-o", "build/bin/FolderTemplates-debug.exe", "."],
       "options": { "cwd": "${workspaceFolder}/app" },
       "dependsOn": ["frontend: build"],
       "group": "build",
