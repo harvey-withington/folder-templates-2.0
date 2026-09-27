@@ -82,9 +82,27 @@ func Load(dir string) (*Template, error) {
 	if err != nil {
 		return nil, err
 	}
-	t := &Template{dir: abs}
+	return parseDescriptor(raw, ConfigFileName, abs)
+}
+
+// LoadDescriptor reads a descriptor from an arbitrary file and applies it to
+// the template folder dir — the C# console's -templateFile option.
+func LoadDescriptor(file, dir string) (*Template, error) {
+	abs, err := filepath.Abs(dir)
+	if err != nil {
+		return nil, err
+	}
+	raw, err := os.ReadFile(file)
+	if err != nil {
+		return nil, err
+	}
+	return parseDescriptor(raw, filepath.Base(file), abs)
+}
+
+func parseDescriptor(raw []byte, name, dir string) (*Template, error) {
+	t := &Template{dir: dir}
 	if err := json.Unmarshal(raw, t); err != nil {
-		return nil, fmt.Errorf("parse %s: %w", ConfigFileName, err)
+		return nil, fmt.Errorf("parse %s: %w", name, err)
 	}
 	return t, nil
 }

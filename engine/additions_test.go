@@ -443,3 +443,28 @@ func TestTestMatch(t *testing.T) {
 		t.Error("empty pattern must error")
 	}
 }
+
+func TestLoadDescriptorFromElsewhere(t *testing.T) {
+	src := t.TempDir()
+	if err := os.WriteFile(filepath.Join(src, "{p}.txt"), nil, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	file := filepath.Join(t.TempDir(), "custom.json")
+	if err := os.WriteFile(file, []byte(`{"Name":"Ext","Parameters":[{"Name":"p","ReplaceInFileNames":true}]}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	tpl, err := ft.LoadDescriptor(file, src)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if tpl.Name != "Ext" || tpl.Dir() != src {
+		t.Fatalf("descriptor = %+v dir %q", tpl, tpl.Dir())
+	}
+	res, err := ft.Generate(tpl, t.TempDir(), map[string]string{"p": "v"}, nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Stat(filepath.Join(res.RootPath, "v.txt")); err != nil {
+		t.Error("external descriptor was not applied")
+	}
+}
