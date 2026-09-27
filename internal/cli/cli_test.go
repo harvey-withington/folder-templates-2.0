@@ -381,3 +381,11 @@ func TestNetStringEscaping(t *testing.T) {
 		t.Errorf("got %s want %s", got, want)
 	}
 }
+
+func TestInvalidNameIsAUsageError(t *testing.T) {
+	dir := fixture(t)
+	r := runFT(t, "", false, "generate", dir, "--target", t.TempDir(), "--set", "name=../escape", "--no-prompt")
+	if r.code != ExitUsage || !strings.Contains(r.stderr, "can't be used as a file or folder name") {
+		t.Errorf("code %d, stderr %q", r.code, r.stderr)
+	}
+}

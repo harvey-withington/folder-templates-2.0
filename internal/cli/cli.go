@@ -136,6 +136,8 @@ func exitFor(err error) int {
 		return ExitCancelled
 	case errors.Is(err, ft.ErrTargetExists):
 		return ExitConflict
+	case errors.Is(err, ft.ErrInvalidName):
+		return ExitUsage // a value made a name the filesystem can't hold
 	case errors.As(err, &verr), errors.Is(err, ft.ErrNotATemplate),
 		errors.Is(err, ft.ErrBinaryContent), errors.Is(err, ft.ErrContentTooLarge):
 		return ExitTemplate

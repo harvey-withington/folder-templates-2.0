@@ -36,6 +36,9 @@ func buildPlan(t *Template, bindings []binding) (*generationPlan, error) {
 	if rootName == "" || rootName == "." {
 		return nil, fmt.Errorf("template root folder name %q resolves to an empty name", filepath.Base(t.dir))
 	}
+	if err := checkOutputName(rootName); err != nil {
+		return nil, err
+	}
 
 	plan := &generationPlan{RootName: rootName}
 	// seen maps lowercased output paths → original-case output path, to flag
@@ -96,6 +99,9 @@ func buildPlan(t *Template, bindings []binding) (*generationPlan, error) {
 		}
 		if name == "" {
 			return fmt.Errorf("output name for %q resolves to an empty name", rel)
+		}
+		if err := checkOutputName(name); err != nil {
+			return err
 		}
 
 		outRel := name

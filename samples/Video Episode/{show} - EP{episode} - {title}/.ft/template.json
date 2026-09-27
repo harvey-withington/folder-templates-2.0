@@ -27,7 +27,7 @@
       "name": "title",
       "type": "text",
       "prompt": "Episode title",
-      "placeholder": "e.g. Why is the sky?",
+      "placeholder": "e.g. Why the sky is blue",
       "defaultValue": null,
       "match": null,
       "replaceInFileNames": true,

@@ -4,6 +4,7 @@
 package settings
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"os"
@@ -105,6 +106,9 @@ func Open(path string) (*Store, error) {
 	if err != nil {
 		return nil, err
 	}
+	// Editors like Notepad and Windows PowerShell save UTF-8 with a BOM,
+	// which encoding/json rejects; a hand-edited file must still load.
+	raw = bytes.TrimPrefix(raw, []byte{0xEF, 0xBB, 0xBF})
 	loaded := Defaults()
 	if err := json.Unmarshal(raw, &loaded); err != nil {
 		_ = os.Rename(path, path+".bad")

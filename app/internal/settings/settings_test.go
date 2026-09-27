@@ -57,6 +57,20 @@ func TestSanitizeRejectsJunk(t *testing.T) {
 	}
 }
 
+func TestFileWithBOMLoads(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "settings.json")
+	if err := os.WriteFile(path, append([]byte{0xEF, 0xBB, 0xBF}, `{"theme":"light"}`...), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	st, _ := Open(path)
+	if st.Get().Theme != "light" {
+		t.Error("a settings file saved with a UTF-8 BOM must load, not reset to defaults")
+	}
+	if _, err := os.Stat(path + ".bad"); err == nil {
+		t.Error("a BOM is not corruption")
+	}
+}
+
 func TestCorruptFileIsSetAside(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "settings.json")
 	if err := os.WriteFile(path, []byte("{not json"), 0o644); err != nil {

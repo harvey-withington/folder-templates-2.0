@@ -500,3 +500,34 @@ func TestBindUsesUnsavedDescriptor(t *testing.T) {
 		t.Error("Bind must not touch the saved descriptor")
 	}
 }
+
+func TestValuesCannotEscapeTheTarget(t *testing.T) {
+	tpl := makeTemplate(t, "{p}", ft.Template{Name: "e", Parameters: []ft.Parameter{baseParam("p")}},
+		map[string][]byte{"{p}.txt": []byte("x")})
+	target := t.TempDir()
+	for _, v := range []string{"..", "../escape", `..\escape`, "a/b"} {
+		if _, err := ft.Generate(tpl, target, map[string]string{"p": v}, nil, nil); !errors.Is(err, ft.ErrInvalidName) {
+			t.Errorf("value %q: err = %v, want ErrInvalidName", v, err)
+		}
+		if _, _, err := ft.Preview(tpl, map[string]string{"p": v}, nil, nil); !errors.Is(err, ft.ErrInvalidName) {
+			t.Errorf("preview with value %q should fail the same way, got %v", v, err)
+		}
+	}
+	if entries, _ := os.ReadDir(filepath.Dir(target)); len(entries) == 0 {
+		t.Fatal("sanity: temp dir listing failed")
+	}
+	if _, err := os.Stat(filepath.Join(filepath.Dir(target), "escape")); err == nil {
+		t.Fatal("a value escaped the target folder")
+	}
+}
+
+func TestWindowsInvalidCharacterReportedByPreview(t *testing.T) {
+	if runtime.GOOS != "windows" {
+		t.Skip("Windows naming rules")
+	}
+	tpl := makeTemplate(t, "{title}", ft.Template{Name: "w", Parameters: []ft.Parameter{baseParam("title")}}, nil)
+	_, _, err := ft.Preview(tpl, map[string]string{"title": "Why is the sky?"}, nil, nil)
+	if !errors.Is(err, ft.ErrInvalidName) || !strings.Contains(err.Error(), `"?"`) {
+		t.Errorf("preview should explain the bad character, got %v", err)
+	}
+}
