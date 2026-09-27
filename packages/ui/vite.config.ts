@@ -1,15 +1,12 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { svelteTesting } from '@testing-library/svelte/vite'
-import { lucidePerIcon } from '@harvey-withington/folder-templates-ui/vite'
+import { lucidePerIcon } from './lucide-per-icon'
 
+// Vite here only serves the tests: the package ships source that each host
+// compiles with its own Vite build.
 export default defineConfig({
   plugins: [lucidePerIcon(), svelte(), svelteTesting()],
-  server: {
-    port: 5174,
-    strictPort: true,
-    watch: { ignored: ['**/wailsjs/**'] },
-  },
   test: {
     environment: 'jsdom',
     globals: true,

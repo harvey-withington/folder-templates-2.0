@@ -56,6 +56,52 @@
         "samples": "Samples"
       }
     },
+    "generate": {
+      "cantOpen": "Can't open this template",
+      "edit": "Edit template",
+      "details": "Details",
+      "destination": "Create in",
+      "pickTarget": "Choose where to create the folder",
+      "preview": "What will be created",
+      "exists": "{name} already exists there.",
+      "create": "Create {name}",
+      "createPlain": "Create",
+      "shortcut": "Ctrl+Enter creates from anywhere on this page.",
+      "confirmOverwrite": "Files in {name} that the template also has will be replaced. This can't be undone.",
+      "overwrite": "Replace files",
+      "done": "Created {name}"
+    },
+    "result": {
+      "title": "Folder created",
+      "files": "{n} files written",
+      "skipped": "{n} existing files kept",
+      "overwritten": "{n} files replaced",
+      "open": "Open folder",
+      "copy": "Copy path",
+      "copied": "Path copied",
+      "again": "Create another"
+    },
+    "editor": {
+      "cantOpen": "Can't open this template",
+      "unsaved": "Unsaved changes",
+      "save": "Save",
+      "create": "Create template",
+      "saved": "Template saved",
+      "generate": "Generate",
+      "saveFirst": "Save your changes first",
+      "newBanner": "This folder isn't a template yet. Describe it below and choose Create template to add its .ft/template.json.",
+      "discard": "You have unsaved changes to this template. Leave without saving?",
+      "discardConfirm": "Discard changes",
+      "paramAdded": "Added parameter {name}",
+      "tools": "Template tools",
+      "tabs": {
+        "scan": "Scan",
+        "files": "Files",
+        "regex": "Pattern tester",
+        "try": "Try it"
+      },
+      "tryHint": "Try values against your unsaved changes. Nothing is written."
+    },
     "settings": {
       "title": "Settings",
       "appearance": "Appearance",

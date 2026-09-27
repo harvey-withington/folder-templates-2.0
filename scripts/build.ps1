@@ -20,8 +20,14 @@ $bin = Join-Path $repo 'app\build\bin'
 
 function Step($name, [scriptblock]$body) {
     Write-Host "`n== $name" -ForegroundColor Cyan
-    & $body
-    if ($LASTEXITCODE -and $LASTEXITCODE -ne 0) { throw "$name failed (exit $LASTEXITCODE)" }
+    # Native tools (wails, npm) write progress to stderr; Windows PowerShell
+    # would turn that into a terminating error under 'Stop'. Judge them by
+    # exit code instead.
+    $global:LASTEXITCODE = 0
+    $saved = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try { & $body } finally { $ErrorActionPreference = $saved }
+    if ($LASTEXITCODE -ne 0) { throw "$name failed (exit $LASTEXITCODE)" }
 }
 
 Push-Location $repo
@@ -37,6 +43,10 @@ try {
     }
 
     $ldflags = "-X main.Version=$Version"
+    # ft.exe first: the NSIS step inside `wails build -nsis` packages it, and
+    # `wails build -clean` empties build\bin, so it is built beside that.
+    $ftExe = Join-Path $repo 'app\build\ft\ft.exe'
+    Step 'ft.exe' { go build -trimpath -ldflags $ldflags -o $ftExe ./cmd/ft }
     Step 'wails build' {
         Push-Location app
         $wailsArgs = @('build', '-clean', '-platform', 'windows/amd64', '-trimpath', '-ldflags', $ldflags)
@@ -44,7 +54,7 @@ try {
         wails @wailsArgs
         Pop-Location
     }
-    Step 'ft.exe' { go build -trimpath -ldflags $ldflags -o (Join-Path $bin 'ft.exe') ./cmd/ft }
+    Copy-Item $ftExe $bin
     Step 'go vet (app, with the built frontend)' { Push-Location app; go vet ./...; Pop-Location }
 
     Step 'portable zip' {

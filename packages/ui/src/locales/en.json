@@ -1,0 +1,127 @@
+{
+  "ft": {
+    "common": {
+      "refresh": "Refresh",
+      "loading": "Loading…",
+      "templateFolder": "(template folder)"
+    },
+    "form": {
+      "label": "Template questions",
+      "empty": "Nothing to fill in — this template doesn't ask any questions."
+    },
+    "preview": {
+      "label": "Folders and files to be created",
+      "folders": { "one": "1 folder", "other": "{count} folders" },
+      "files": { "one": "1 file", "other": "{count} files" },
+      "existing": "{count} already exist",
+      "updating": "Updating…",
+      "empty": "Fill in the form to see what will be created.",
+      "renamedFrom": "Renamed from {name}",
+      "from": "from {name}",
+      "filledIn": "filled in",
+      "filledInTitle": "Tokens inside this file are filled in. Select it to see the result.",
+      "exists": "Already exists at the target",
+      "warnings": "Warnings"
+    },
+    "diff": {
+      "mode": "View",
+      "result": "Result",
+      "changes": "Changes",
+      "changedCount": { "one": "1 line changed", "other": "{count} lines changed" },
+      "noChanges": "Nothing in this file is replaced with these values.",
+      "emptyFile": "This file is empty.",
+      "loading": "Rendering…",
+      "empty": "Select a filled-in file to see its contents.",
+      "before": "Before",
+      "after": "After",
+      "close": "Close file view"
+    },
+    "editor": {
+      "name": "Template name",
+      "description": "Description",
+      "descriptionPlaceholder": "What this template is for (optional)",
+      "target": "Default target folder",
+      "targetPlaceholder": "e.g. ../Projects",
+      "targetHint": "Relative paths resolve against the folder that contains the template.",
+      "parameters": "Parameters",
+      "parametersHint": "Each parameter is asked for when generating, then replaces {name} in names and {{$name}} inside .ft$ files.",
+      "noParameters": "No parameters yet. Add one, or add tokens found by the scan.",
+      "add": "Add parameter",
+      "confirmDelete": "Delete the parameter “{name}”?",
+      "confirmDeleteUnnamed": "Delete this parameter?",
+      "delete": "Delete",
+      "issues": "Problems with this template"
+    },
+    "param": {
+      "card": "Parameter {name}",
+      "cardUnnamed": "Unnamed parameter",
+      "name": "Name",
+      "namePlaceholder": "token",
+      "prompt": "Prompt",
+      "promptPlaceholder": "Question shown when generating",
+      "internalNote": "Not asked — always uses the default value.",
+      "names": "Names",
+      "namesTitle": "Replace in file and folder names",
+      "files": "Files",
+      "filesTitle": "Replace inside .ft$ files",
+      "asked": "Asked",
+      "internal": "Internal",
+      "askedLabel": "Ask for this value when generating",
+      "drag": "Drag to reorder",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "delete": "Delete parameter",
+      "more": "More options",
+      "renameRule": "Rename rule",
+      "renameRuleHint": "No name: renames anything matching the pattern to the default value.",
+      "placeholder": "Placeholder",
+      "defaultValue": "Default value",
+      "replaceWith": "Replace with",
+      "match": "Match pattern",
+      "matchHint": ".NET regular expression. Leave empty to match {token}.",
+      "matchPlaceholderUnnamed": "Pattern to find in names",
+      "testMatch": "Test pattern"
+    },
+    "scan": {
+      "title": "Tokens and checks",
+      "scanning": "Scanning…",
+      "issues": "Checks",
+      "noIssues": "No problems found.",
+      "tokens": "Tokens",
+      "noTokens": "No tokens found. Use {name} in names or {{$name}} inside .ft$ files.",
+      "inNames": { "one": "1 name", "other": "{count} names" },
+      "inContent": { "one": "1 file", "other": "{count} files" },
+      "declared": "Parameter",
+      "undeclared": "Not a parameter",
+      "addParameter": "Add parameter",
+      "addParameterFor": "Add parameter for {name}",
+      "kinds": {
+        "token-in-unprocessed-file": "Tokens in files that aren't filled in",
+        "undeclared-token": "Tokens without a parameter",
+        "unused-parameter": "Unused parameters",
+        "name-replacement-off": "Name replacement turned off",
+        "content-replacement-off": "File replacement turned off",
+        "unprocessable-content-file": "Files that can't be filled in"
+      }
+    },
+    "contentToggle": {
+      "label": "Template files",
+      "column": "Fill in tokens",
+      "switch": "Fill in tokens in {name}",
+      "hint": "Switched-on files get the .ft$ suffix: tokens inside them are replaced, and the suffix is dropped in the output.",
+      "empty": "This template has no files yet."
+    },
+    "regex": {
+      "pattern": "Pattern",
+      "patternPlaceholder": "e.g. \\{client\\}",
+      "replacement": "Value to test with",
+      "replacementPlaceholder": "What the parameter would be",
+      "replacementHint": "$1, $2… insert captured groups.",
+      "idle": "Enter a pattern to see which names it matches.",
+      "testing": "Testing…",
+      "noMatches": "No names match this pattern.",
+      "matches": { "one": "1 name matches", "other": "{count} names match" },
+      "error": "Pattern can't be used"
+    }
+  }
+}

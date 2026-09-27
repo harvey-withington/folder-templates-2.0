@@ -1,0 +1,135 @@
+/*
+ * Folder Templates UI tokens. Components use only --ft-* variables. Each one
+ * falls back to BRUV's token of the same role, so inside BRUV the components
+ * pick up its theme with no extra mapping; standalone hosts either define the
+ * BRUV-named tokens or override --ft-* directly.
+ */
+:root {
+  --ft-bg: var(--bg-base, #18181b);
+  --ft-surface: var(--bg-surface, #1c1c1f);
+  --ft-elevated: var(--bg-elevated, #27272a);
+  --ft-subtle: var(--bg-subtle, rgba(255, 255, 255, 0.05));
+  --ft-subtle-hover: var(--bg-subtle-hover, rgba(255, 255, 255, 0.1));
+  --ft-overlay: var(--bg-overlay, rgba(0, 0, 0, 0.5));
+
+  --ft-border: var(--border, #3f3f46);
+  --ft-border-muted: var(--border-muted, #2e2e32);
+  --ft-border-hover: var(--border-hover, #52525b);
+
+  --ft-text: var(--text-body, #d4d4d8);
+  --ft-text-strong: var(--text-primary, #f5f5f5);
+  --ft-text-secondary: var(--text-secondary, #a1a1aa);
+  --ft-text-muted: var(--text-muted, #71717a);
+
+  --ft-accent: var(--accent, #6366f1);
+  --ft-accent-hover: var(--accent-hover, #4f46e5);
+  --ft-accent-soft: var(--accent-glow-3, rgba(99, 102, 241, 0.1));
+  --ft-on-accent: var(--on-color, #ffffff);
+  --ft-template: var(--template-accent, #22d3ee);
+
+  --ft-success: var(--success, #22c55e);
+  --ft-warning: var(--warning, #f59e0b);
+  --ft-danger: var(--danger, #ef4444);
+  --ft-warning-bg: var(--warning-bg, #451a03);
+  --ft-warning-text: var(--warning-text, #fed7aa);
+  --ft-danger-bg: var(--danger-bg, #450a0a);
+  --ft-danger-text: var(--danger-text, #fecaca);
+  --ft-diff-add: rgba(34, 197, 94, 0.16);
+  --ft-diff-remove: rgba(239, 68, 68, 0.16);
+
+  --ft-radius: 6px;
+  --ft-radius-lg: 10px;
+  --ft-font-mono: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+  --ft-duration: var(--duration-normal, 0.15s);
+}
+
+[data-theme='light'] {
+  --ft-diff-add: rgba(22, 163, 74, 0.14);
+  --ft-diff-remove: rgba(220, 38, 38, 0.12);
+}
+
+/* Shared control styles, scoped under .ft-scope so hosts opt in. */
+.ft-scope input[type='text'],
+.ft-scope input:not([type]),
+.ft-scope textarea,
+.ft-scope select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--ft-border);
+  border-radius: var(--ft-radius);
+  background: var(--ft-elevated);
+  color: var(--ft-text-strong);
+  font: inherit;
+  transition: border-color var(--ft-duration);
+}
+
+.ft-scope input:focus-visible,
+.ft-scope textarea:focus-visible,
+.ft-scope select:focus-visible {
+  outline: none;
+  border-color: var(--ft-accent);
+  box-shadow: 0 0 0 3px var(--ft-accent-soft);
+}
+
+.ft-scope input[type='checkbox'] {
+  accent-color: var(--ft-accent);
+}
+
+.ft-scope .ft-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--ft-border);
+  border-radius: var(--ft-radius);
+  background: var(--ft-subtle);
+  color: var(--ft-text-strong);
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--ft-duration), border-color var(--ft-duration);
+}
+
+.ft-scope .ft-btn:hover:not(:disabled) {
+  background: var(--ft-subtle-hover);
+  border-color: var(--ft-border-hover);
+}
+
+.ft-scope .ft-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ft-scope .ft-btn-primary {
+  background: var(--ft-accent);
+  border-color: var(--ft-accent);
+  color: var(--ft-on-accent);
+}
+
+.ft-scope .ft-btn-primary:hover:not(:disabled) {
+  background: var(--ft-accent-hover);
+  border-color: var(--ft-accent-hover);
+}
+
+.ft-scope .ft-btn-icon {
+  padding: 5px;
+  background: transparent;
+  border-color: transparent;
+  color: var(--ft-text-secondary);
+}
+
+.ft-scope .ft-btn-icon:hover:not(:disabled) {
+  color: var(--ft-text-strong);
+}
+
+.ft-scope .ft-mono {
+  font-family: var(--ft-font-mono);
+  font-size: 0.92em;
+}
+
+.ft-scope .ft-muted {
+  color: var(--ft-text-muted);
+}
+
+.ft-scope .ft-error-text {
+  color: var(--ft-danger);
+}

@@ -20,3 +20,6 @@ Thumbs.db
 
 # Planning docs (kept locally, not versioned)
 /plan/
+/app/build/ft/
+/app/build/windows/installer/wails_tools.nsh
+/app/frontend/package.json.md5
