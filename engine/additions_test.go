@@ -482,3 +482,21 @@ func TestLoadDescriptorFromElsewhere(t *testing.T) {
 		t.Error("external descriptor was not applied")
 	}
 }
+
+func TestBindUsesUnsavedDescriptor(t *testing.T) {
+	tpl := makeTemplate(t, "b", ft.Template{Name: "saved"}, map[string][]byte{"{x}.txt": nil})
+	bound, err := ft.Bind(ft.Template{Name: "draft", Parameters: []ft.Parameter{baseParam("x")}}, tpl.Dir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	entries, _, err := ft.Preview(bound, map[string]string{"x": "v"}, nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if entries[1].OutputRel != "b/v.txt" {
+		t.Errorf("preview with bound draft = %+v", entries)
+	}
+	if reloaded, _ := ft.Load(tpl.Dir()); reloaded.Name != "saved" {
+		t.Error("Bind must not touch the saved descriptor")
+	}
+}

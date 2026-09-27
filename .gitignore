@@ -1,6 +1,8 @@
-# Go
+# Go / Wails
 *.exe
-/build/bin/
+/app/build/bin/
+/app/frontend/dist/
+/dist/
 
 # Node
 node_modules/

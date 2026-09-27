@@ -1,0 +1,92 @@
+{
+  "app": {
+    "name": "Folder Templates",
+    "common": {
+      "ok": "OK",
+      "cancel": "Cancel",
+      "dismiss": "Dismiss",
+      "refresh": "Refresh",
+      "remove": "Remove",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "browse": "Browse…",
+      "close": "Close",
+      "back": "Back"
+    },
+    "rail": {
+      "label": "Main navigation",
+      "library": "Templates",
+      "generate": "Generate",
+      "editor": "Edit",
+      "settings": "Settings"
+    },
+    "drop": {
+      "hint": "Drop a folder to open it"
+    },
+    "conflict": {
+      "refuse": "Stop if the folder exists",
+      "merge": "Add what's missing, keep existing files",
+      "overwrite": "Replace existing files"
+    },
+    "library": {
+      "title": "Templates",
+      "search": "Search templates",
+      "openFolder": "Open folder…",
+      "addFolder": "Add library folder…",
+      "pickTemplate": "Choose a template folder",
+      "pickLibrary": "Choose a folder that holds your templates",
+      "folderAdded": "Added {dir} to your library",
+      "pickBanner": "Choose a template to create in",
+      "emptyTitle": "No templates yet",
+      "emptyBody": "Add a folder where you keep templates, open a template folder, or drop one onto this window.",
+      "noMatch": "No templates match “{query}”.",
+      "params": "{n} parameters",
+      "missing": "Folder not found",
+      "unreadable": "Can't read template.json",
+      "sample": "Sample",
+      "edit": "Edit template",
+      "reveal": "Show in Explorer",
+      "pin": "Pin",
+      "unpin": "Unpin",
+      "forget": "Remove from recents",
+      "sections": {
+        "pinned": "Pinned",
+        "recent": "Recent",
+        "library": "Library",
+        "samples": "Samples"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "appearance": "Appearance",
+      "theme": "Theme",
+      "themes": {
+        "system": "Match Windows",
+        "dark": "Dark",
+        "light": "Light"
+      },
+      "libraryFolders": "Library folders",
+      "libraryHint": "Every template inside these folders appears on the Templates page.",
+      "noFolders": "No library folders yet.",
+      "showSamples": "Show the sample templates",
+      "generating": "Generating",
+      "defaultConflict": "When the output folder already exists",
+      "openFolderAfter": "Open the new folder in Explorer when done",
+      "closeAfter": "Close Folder Templates when done",
+      "explorer": "Windows Explorer",
+      "explorerHint": "Shortcuts for your account only; no administrator rights needed.",
+      "shell": {
+        "sendToProcess": "Send to › Folder Template - Process",
+        "sendToProcessHint": "Send a template folder here to generate from it.",
+        "sendToEdit": "Send to › Folder Template - Edit",
+        "sendToEditHint": "Send a folder here to edit its template, or turn it into one.",
+        "folderMenu": "Right-click a folder › Generate from this template / Edit folder template",
+        "folderMenuHint": "On Windows 11, under “Show more options”.",
+        "backgroundMenu": "Right-click inside a folder › New from template here…",
+        "backgroundMenuHint": "Pick a template and create it in the folder you're looking at."
+      },
+      "about": "About",
+      "version": "Folder Templates {version}"
+    }
+  }
+}

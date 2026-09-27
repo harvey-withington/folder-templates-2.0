@@ -99,6 +99,19 @@ func LoadDescriptor(file, dir string) (*Template, error) {
 	return parseDescriptor(raw, filepath.Base(file), abs)
 }
 
+// Bind returns a copy of desc attached to the template folder dir, so unsaved
+// edits can be previewed, rendered or scanned before Save.
+func Bind(desc Template, dir string) (*Template, error) {
+	abs, err := filepath.Abs(dir)
+	if err != nil {
+		return nil, err
+	}
+	t := desc
+	t.Parameters = append([]Parameter(nil), desc.Parameters...)
+	t.dir = abs
+	return &t, nil
+}
+
 func parseDescriptor(raw []byte, name, dir string) (*Template, error) {
 	t := &Template{dir: dir}
 	if err := json.Unmarshal(raw, t); err != nil {

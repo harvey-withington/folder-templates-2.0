@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Folder Templates",
+  "outputfilename": "FolderTemplates",
+  "frontend:install": "npm --prefix ../.. install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "http://localhost:5174",
+  "author": {
+    "name": "Harvey"
+  },
+  "info": {
+    "companyName": "Good Egg Software",
+    "productName": "Folder Templates",
+    "productVersion": "2.0.0",
+    "copyright": "Copyright © 2026 Harvey. MIT licence.",
+    "comments": "Create folder structures from templates."
+  }
+}

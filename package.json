@@ -1,0 +1,13 @@
+{
+  "name": "folder-templates",
+  "private": true,
+  "workspaces": [
+    "packages/ui",
+    "app/frontend"
+  ],
+  "scripts": {
+    "build": "npm --workspace app/frontend run build",
+    "check": "npm --workspaces run check",
+    "test": "npm --workspaces run test:run"
+  }
+}
