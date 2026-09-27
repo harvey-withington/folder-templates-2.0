@@ -147,6 +147,9 @@ Requirements: Go 1.26, Node 24, the [Wails CLI](https://wails.io) v2.10, and
 cd app; wails dev                           # run the app with hot reload
 ```
 
+The website's screenshots come from the real app, rendered headlessly (no window
+opens and focus never moves): build the app, then run `node scripts/screenshots.mjs`.
+
 | Folder | What |
 |---|---|
 | `engine/` | The template engine, its own Go module (`github.com/harvey-withington/foldertemplate`), also used by BRUV |
@@ -155,6 +158,7 @@ cd app; wails dev                           # run the app with hot reload
 | `packages/ui/` | Shared Svelte components (`@harvey-withington/folder-templates-ui`) |
 | `samples/` | Sample templates shipped with the app |
 | `testdata/parity/` | Output compared byte for byte against 1.0 |
+| `website/` | The landing page, published to GitHub Pages by `.github/workflows/deploy-pages.yml` |
 
 ## Licence
 
