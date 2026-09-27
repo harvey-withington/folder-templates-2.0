@@ -54,6 +54,7 @@ Deliberate, and covered by tests:
 - The output root keeps the template folder's full name; the original dropped anything after the last dot (`Path.GetFileNameWithoutExtension`), so `v1.2 {name}` became `v1`.
 - The `.ft$` suffix is matched case-sensitively on the renamed name; the original matched the source extension case-insensitively (`.FT$`).
 - An empty `match` string means "use the default"; in the original it matched between every character.
+- `.ft$` files keep a UTF-8 BOM and their exact bytes outside tokens; the original re-encoded through `File.ReadAllText`/`WriteAllText`, which dropped the BOM.
 
 ## API
 

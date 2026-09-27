@@ -1,0 +1,7 @@
+# {{$name}}
+
+{{$description}}
+
+## Licence
+
+MIT © {{$year}} {{$author}}

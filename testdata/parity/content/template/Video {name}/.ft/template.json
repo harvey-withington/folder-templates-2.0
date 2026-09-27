@@ -1,0 +1,27 @@
+{
+  "Name": "Video",
+  "Parameters": [
+    {
+      "Name": "name",
+      "Type": "text",
+      "Prompt": "Name?",
+      "ReplaceInFileNames": true,
+      "ReplaceInFiles": true
+    },
+    {
+      "Name": "channel",
+      "Type": "text",
+      "DefaultValue": "OOP",
+      "ReplaceInFileNames": false,
+      "ReplaceInFiles": true
+    },
+    {
+      "Name": "nofill",
+      "Type": "text",
+      "Prompt": "Unused?",
+      "DefaultValue": "X",
+      "ReplaceInFileNames": false,
+      "ReplaceInFiles": false
+    }
+  ]
+}

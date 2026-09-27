@@ -1,0 +1,19 @@
+{
+  "name": "Episode",
+  "parameters": [
+    {
+      "name": null,
+      "type": "text",
+      "match": "^_Template - ",
+      "replaceInFileNames": true,
+      "replaceInFiles": false
+    },
+    {
+      "name": "ep",
+      "type": "text",
+      "prompt": "Episode?",
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    }
+  ]
+}

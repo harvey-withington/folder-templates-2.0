@@ -1,0 +1,5 @@
+# {{$name}}
+Channel: {{$channel}}
+Unknown: {{$unknown}}
+Off: {{$nofill}}
+Twice: {{$name}}/{{$name}}

@@ -1,0 +1,9 @@
+{
+  "values": {
+    "client": "Acme",
+    "project": "Rocket"
+  },
+  "emptyDirs": [
+    "empty {project}"
+  ]
+}

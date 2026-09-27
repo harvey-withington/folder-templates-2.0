@@ -1,0 +1,21 @@
+# {{$project}} for {{$client}}
+
+Owner: {{$owner}}
+Year: {{$year}}
+Prepared by {{$studio}}.
+
+## How this folder was made
+
+This README was a `README.md.ft$` file in the template. Files whose names end
+in `.ft$` get their tokens filled in (the client and project names above were
+tokens), and the `.ft$` is dropped. Tokens nobody declared, like
+{{$notAParameter}}, are left exactly as written.
+
+- `client` and `project` renamed the folders and files that contained
+  `{client}` and `{project}`.
+- `year` uses a custom match, `\{yyyy\}`, so the template writes `{yyyy}` in
+  names instead of `{year}`.
+- A parameter with no name and the match `^_Template - ` strips that prefix
+  from every name. It is why the template folder is called
+  `_Template - {client} - {project}` but this folder is not.
+- `studio` has no prompt, so nobody is asked: it always uses its default.

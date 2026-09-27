@@ -1,0 +1,47 @@
+{
+  "name": "Code Project",
+  "description": "A new repository with a README, MIT licence and .gitignore.",
+  "defaultTargetPath": "",
+  "parameters": [
+    {
+      "name": "name",
+      "type": "text",
+      "prompt": "Project name",
+      "placeholder": "e.g. my-tool",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "description",
+      "type": "text",
+      "prompt": "One-line description",
+      "placeholder": "What does it do?",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": false,
+      "replaceInFiles": true
+    },
+    {
+      "name": "author",
+      "type": "text",
+      "prompt": "Author",
+      "placeholder": "Your name",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": false,
+      "replaceInFiles": true
+    },
+    {
+      "name": "year",
+      "type": "text",
+      "prompt": "Copyright year",
+      "placeholder": null,
+      "defaultValue": "2026",
+      "match": null,
+      "replaceInFileNames": false,
+      "replaceInFiles": true
+    }
+  ]
+}

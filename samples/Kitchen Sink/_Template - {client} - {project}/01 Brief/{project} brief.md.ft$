@@ -1,0 +1,12 @@
+# {{$project}} brief
+
+Client: {{$client}}
+Owner: {{$owner}}
+
+## Goals
+
+- 
+
+## Deadline
+
+{{$year}}-

@@ -1,0 +1,37 @@
+{
+  "name": "Video Episode",
+  "description": "Script, footage, audio and thumbnail folders for one episode of a show.",
+  "defaultTargetPath": "",
+  "parameters": [
+    {
+      "name": "show",
+      "type": "text",
+      "prompt": "Show",
+      "placeholder": "e.g. The Weekly Build",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "episode",
+      "type": "text",
+      "prompt": "Episode number",
+      "placeholder": "e.g. 042",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "title",
+      "type": "text",
+      "prompt": "Episode title",
+      "placeholder": "e.g. Why is the sky?",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    }
+  ]
+}

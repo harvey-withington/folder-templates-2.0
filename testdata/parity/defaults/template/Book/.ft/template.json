@@ -1,0 +1,22 @@
+{
+  "name": "Book",
+  "description": "d",
+  "defaultTargetPath": "Books",
+  "parameters": [
+    {
+      "name": "title",
+      "type": "text",
+      "prompt": "Title?",
+      "defaultValue": "Untitled",
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "author",
+      "type": "text",
+      "prompt": "Author?",
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    }
+  ]
+}

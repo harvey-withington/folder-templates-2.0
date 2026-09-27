@@ -1,0 +1,21 @@
+{
+  "name": "Regex",
+  "parameters": [
+    {
+      "name": "ver",
+      "type": "text",
+      "prompt": "Version?",
+      "match": "(?<=v)\\d+",
+      "replaceInFileNames": true,
+      "replaceInFiles": false
+    },
+    {
+      "name": "stage",
+      "type": "text",
+      "prompt": "Stage?",
+      "match": "(\\w+)-DRAFT",
+      "replaceInFileNames": true,
+      "replaceInFiles": false
+    }
+  ]
+}

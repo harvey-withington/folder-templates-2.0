@@ -383,6 +383,20 @@ func TestScanUsesUnsavedDescriptor(t *testing.T) {
 	}
 }
 
+func TestScanCustomMatchCoversNameToken(t *testing.T) {
+	year := baseParam("year")
+	year.Match = str(`\{yyyy\}`)
+	tpl := makeTemplate(t, "c", ft.Template{Name: "c", Parameters: []ft.Parameter{year}},
+		map[string][]byte{"report {yyyy}.txt": nil})
+	res, err := ft.Scan(tpl.Dir(), nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(res.Tokens) != 1 || !res.Tokens[0].Declared || len(res.Issues) != 0 {
+		t.Errorf("{yyyy} covered by year's match should be declared with no issues: %+v", res)
+	}
+}
+
 func TestScanPlainFolder(t *testing.T) {
 	dir := t.TempDir()
 	if err := os.WriteFile(filepath.Join(dir, "{who}.txt"), nil, 0o644); err != nil {

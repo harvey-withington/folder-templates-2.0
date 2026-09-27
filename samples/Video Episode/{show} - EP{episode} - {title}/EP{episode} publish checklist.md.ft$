@@ -1,0 +1,6 @@
+# Publish: {{$show}} EP{{$episode}}
+
+- [ ] Title: {{$title}}
+- [ ] Thumbnail exported
+- [ ] Description and chapters
+- [ ] Scheduled

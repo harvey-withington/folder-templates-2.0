@@ -188,12 +188,14 @@ func Scan(dir string, tpl *Template, opts *Options) (*ScanResult, error) {
 			params[strings.ToLower(p.Name)] = p
 		}
 	}
+	var nameRes []*regexp2.Regexp // every name-replacing pattern, for coverage below
 	for _, p := range tpl.Parameters {
 		u := ParamUsage{Name: p.Name, Match: effectiveMatch(p)}
 		if p.ReplaceInFileNames {
 			re, err := regexp2.Compile(u.Match, regexp2.None)
 			if err == nil {
 				re.MatchTimeout = o.MatchTimeout
+				nameRes = append(nameRes, re)
 				for _, n := range names {
 					if ok, err := re.MatchString(n.name); err == nil && ok {
 						u.NameHits++
@@ -225,8 +227,12 @@ func Scan(dir string, tpl *Template, opts *Options) (*ScanResult, error) {
 	for _, key := range order {
 		ti := tokens[key]
 		p, declared := params[key]
-		ti.Declared = declared
+		// A {token} used only in names also counts as declared when some
+		// parameter's custom match renames it (e.g. match \{yyyy\} on "year").
+		covered := !declared && len(ti.InContent) == 0 && coveredByPattern("{"+ti.Name+"}", nameRes)
+		ti.Declared = declared || covered
 		switch {
+		case covered:
 		case !declared:
 			res.Issues = append(res.Issues, ScanIssue{Kind: IssueUndeclaredToken, Token: ti.Name,
 				Message: fmt.Sprintf("token %s is used but no parameter declares it", ti.Name)})
@@ -296,6 +302,15 @@ func TestMatch(dir, pattern, replacement string, opts *Options) ([]NameHit, erro
 		hits = append(hits, NameHit{SourceRel: e.Rel, Name: name, Result: out, IsDir: e.IsDir})
 	}
 	return hits, nil
+}
+
+func coveredByPattern(s string, res []*regexp2.Regexp) bool {
+	for _, re := range res {
+		if ok, err := re.MatchString(s); err == nil && ok {
+			return true
+		}
+	}
+	return false
 }
 
 func looksBinary(raw []byte) bool {

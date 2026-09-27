@@ -1,0 +1,67 @@
+{
+  "name": "Kitchen Sink",
+  "description": "Every Folder Templates feature in one place: name tokens, filled-in files, a custom match, a rename rule, an internal parameter and a default target.",
+  "defaultTargetPath": "Generated",
+  "parameters": [
+    {
+      "name": null,
+      "type": "text",
+      "prompt": null,
+      "placeholder": null,
+      "defaultValue": null,
+      "match": "^_Template - ",
+      "replaceInFileNames": true,
+      "replaceInFiles": false
+    },
+    {
+      "name": "client",
+      "type": "text",
+      "prompt": "Client name",
+      "placeholder": "e.g. Acme Ltd",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "project",
+      "type": "text",
+      "prompt": "Project name",
+      "placeholder": "e.g. Website relaunch",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "year",
+      "type": "text",
+      "prompt": "Year",
+      "placeholder": null,
+      "defaultValue": "2026",
+      "match": "\\{yyyy\\}",
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "owner",
+      "type": "text",
+      "prompt": "Project owner (optional)",
+      "placeholder": "Your name",
+      "defaultValue": null,
+      "match": null,
+      "replaceInFileNames": false,
+      "replaceInFiles": true
+    },
+    {
+      "name": "studio",
+      "type": "text",
+      "prompt": null,
+      "placeholder": null,
+      "defaultValue": "Good Egg Software",
+      "match": null,
+      "replaceInFileNames": false,
+      "replaceInFiles": true
+    }
+  ]
+}

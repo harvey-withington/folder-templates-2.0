@@ -1,0 +1,19 @@
+{
+  "name": "Names",
+  "parameters": [
+    {
+      "name": "client",
+      "type": "text",
+      "prompt": "Client?",
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    },
+    {
+      "name": "project",
+      "type": "text",
+      "prompt": "Project?",
+      "replaceInFileNames": true,
+      "replaceInFiles": true
+    }
+  ]
+}
