@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	ft "github.com/harvey-withington/foldertemplate"
+	ft "github.com/harvey-withington/folder-templates-2.0/engine"
 )
 
 func str(s string) *string { return &s }
@@ -25,7 +25,7 @@ func fixture(t *testing.T) string {
 		DefaultTargetPath: "Out",
 		Parameters: []ft.Parameter{
 			{Name: "name", Type: "text", Prompt: str("Project name?"), Placeholder: str("e.g. alpha"), ReplaceInFileNames: true, ReplaceInFiles: true},
-			{Name: "owner", Type: "text", Prompt: str("Owner?"), DefaultValue: str("Harvey"), ReplaceInFiles: true},
+			{Name: "owner", Type: "text", Prompt: str("Owner?"), DefaultValue: str("Alex"), ReplaceInFiles: true},
 			{Name: "channel", Type: "text", DefaultValue: str("OOP"), ReplaceInFiles: true},
 		},
 	}
@@ -86,7 +86,7 @@ func TestV1ListParamsJSONIsNewtonsoftShaped(t *testing.T) {
 		"    \"Type\": \"text\",\r\n" +
 		"    \"Prompt\": \"Owner?\",\r\n" +
 		"    \"Placeholder\": null,\r\n" +
-		"    \"DefaultValue\": \"Harvey\"\r\n" +
+		"    \"DefaultValue\": \"Alex\"\r\n" +
 		"  }\r\n" +
 		"]\r\n"
 	if r.code != 0 || r.stdout != want {
@@ -119,7 +119,7 @@ func TestV1ListParamsPlain(t *testing.T) {
 	r := runFT(t, "", false, "-sourceFolder", dir, "-listParams", "-nowait")
 	want := "Listing Template Folder params (format = plain):\n\n" +
 		"name (text): 'Project name?' = []\n" +
-		"owner (text): 'Owner?' = [Harvey]\n"
+		"owner (text): 'Owner?' = [Alex]\n"
 	if r.stdout != want {
 		t.Fatalf("got %q", r.stdout)
 	}
@@ -149,7 +149,7 @@ func TestV1NoPromptUsesDefaultsAndBareSourcePath(t *testing.T) {
 	if r.code != 0 {
 		t.Fatalf("code %d: %s", r.code, r.stdout)
 	}
-	if got := read(t, filepath.Join(target, " project", "readme.md")); got != " by Harvey for OOP\n" {
+	if got := read(t, filepath.Join(target, " project", "readme.md")); got != " by Alex for OOP\n" {
 		t.Errorf("readme = %q", got)
 	}
 }
@@ -174,7 +174,7 @@ func TestV1OverwritesLikeOriginal(t *testing.T) {
 	if r := runFT(t, "", false, args...); r.code != 0 {
 		t.Fatalf("second run code %d: %s", r.code, r.stdout)
 	}
-	if got := read(t, filepath.Join(target, "x project", "readme.md")); got != "x by Harvey for OOP\n" {
+	if got := read(t, filepath.Join(target, "x project", "readme.md")); got != "x by Alex for OOP\n" {
 		t.Errorf("1.0 replaced existing files; got %q", got)
 	}
 }
@@ -290,10 +290,10 @@ func TestGeneratePromptsWhenInteractive(t *testing.T) {
 	if r.code != 0 {
 		t.Fatalf("code %d: %s", r.code, r.stderr)
 	}
-	if !strings.Contains(r.stdout, "Project name? (e.g. alpha): Owner? [Harvey]: ") {
+	if !strings.Contains(r.stdout, "Project name? (e.g. alpha): Owner? [Alex]: ") {
 		t.Errorf("prompts = %q", r.stdout)
 	}
-	if got := read(t, filepath.Join(target, "gamma project", "readme.md")); got != "gamma by Harvey for OOP\n" {
+	if got := read(t, filepath.Join(target, "gamma project", "readme.md")); got != "gamma by Alex for OOP\n" {
 		t.Errorf("readme = %q", got)
 	}
 }

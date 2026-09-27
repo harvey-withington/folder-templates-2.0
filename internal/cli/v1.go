@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	ft "github.com/harvey-withington/foldertemplate"
+	ft "github.com/harvey-withington/folder-templates-2.0/engine"
 )
 
 // v1 compatibility: the C# FolderTemplates.Console command line, reproduced

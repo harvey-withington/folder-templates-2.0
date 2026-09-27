@@ -1,10 +1,10 @@
-module github.com/harvey-withington/folder-templates/app
+module github.com/harvey-withington/folder-templates-2.0/app
 
 go 1.24
 
 require (
 	github.com/go-ole/go-ole v1.3.0
-	github.com/harvey-withington/foldertemplate v0.0.0
+	github.com/harvey-withington/folder-templates-2.0/engine v0.0.0
 	github.com/wailsapp/wails/v2 v2.10.1
 	golang.org/x/sys v0.30.0
 )
@@ -37,4 +37,4 @@ require (
 	golang.org/x/text v0.22.0 // indirect
 )
 
-replace github.com/harvey-withington/foldertemplate => ../engine
+replace github.com/harvey-withington/folder-templates-2.0/engine => ../engine

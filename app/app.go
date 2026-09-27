@@ -9,13 +9,13 @@ import (
 	"sync"
 	"time"
 
-	ft "github.com/harvey-withington/foldertemplate"
+	ft "github.com/harvey-withington/folder-templates-2.0/engine"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 
-	"github.com/harvey-withington/folder-templates/app/internal/launch"
-	"github.com/harvey-withington/folder-templates/app/internal/library"
-	"github.com/harvey-withington/folder-templates/app/internal/settings"
-	"github.com/harvey-withington/folder-templates/app/internal/shell"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/launch"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/library"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/settings"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/shell"
 )
 
 // App is the service bound to the frontend. Every exported method becomes a

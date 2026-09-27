@@ -14,8 +14,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/harvey-withington/folder-templates/app/internal/launch"
-	"github.com/harvey-withington/folder-templates/app/internal/settings"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/launch"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/settings"
 )
 
 // serveUI runs the app's UI in a browser instead of a window: the embedded

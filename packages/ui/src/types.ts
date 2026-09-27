@@ -1,4 +1,4 @@
-// Shapes mirror the Go engine's JSON (github.com/harvey-withington/foldertemplate).
+// Shapes mirror the Go engine's JSON (github.com/harvey-withington/folder-templates-2.0/engine).
 // Paths are slash-separated and relative unless a field says otherwise.
 
 /** One template parameter, exactly as stored in .ft/template.json (camelCase). */

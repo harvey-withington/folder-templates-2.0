@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/harvey-withington/folder-templates/internal/cli"
+	"github.com/harvey-withington/folder-templates-2.0/internal/cli"
 )
 
 // Version is set at build time with -ldflags "-X main.Version=…".

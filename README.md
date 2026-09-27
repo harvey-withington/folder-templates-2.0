@@ -152,7 +152,7 @@ opens and focus never moves): build the app, then run `node scripts/screenshots.
 
 | Folder | What |
 |---|---|
-| `engine/` | The template engine, its own Go module (`github.com/harvey-withington/foldertemplate`), also used by BRUV |
+| `engine/` | The template engine, its own Go module (`github.com/harvey-withington/folder-templates-2.0/engine`), also used by BRUV |
 | `cmd/ft`, `internal/cli` | The `ft` command line |
 | `app/` | The Wails desktop app |
 | `packages/ui/` | Shared Svelte components (`@harvey-withington/folder-templates-ui`) |

@@ -13,9 +13,9 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
-	"github.com/harvey-withington/folder-templates/app/internal/launch"
-	"github.com/harvey-withington/folder-templates/app/internal/settings"
-	"github.com/harvey-withington/folder-templates/app/internal/shell"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/launch"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/settings"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/shell"
 )
 
 //go:embed all:frontend/dist

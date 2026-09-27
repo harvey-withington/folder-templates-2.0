@@ -9,13 +9,14 @@
 // DevTools protocol. Build first (scripts/build.ps1 or `wails build` in app/).
 //
 // A portable staged copy of the exe is used, so real settings and recents are
-// never read or written. The sample templates are copied to
-// Documents\Templates for realistic paths and removed afterwards; the script
-// refuses to run if that folder already exists.
+// never read or written. The sample templates are copied to a temp folder
+// mapped to a spare drive letter (subst, per-user, removed afterwards), so
+// the paths in the screenshots read T:\Templates\… and give nothing away
+// about the machine or its user.
 
 import { spawn, execFileSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync, copyFileSync } from 'node:fs'
-import { homedir, tmpdir } from 'node:os'
+import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -35,9 +36,11 @@ const UI_PORT = 7931
 const CDP_PORT = 9333
 
 // --- staging ---------------------------------------------------------------------
-const docs = join(homedir(), 'Documents')
-const lib = join(docs, 'Templates')
-if (existsSync(lib)) throw new Error(`${lib} exists; refusing to touch it`)
+const libHost = mkdtempSync(join(tmpdir(), 'ftshots-lib-'))
+const drive = ['T:', 'U:', 'V:', 'W:', 'X:', 'Y:'].find((d) => !existsSync(d + '/'))
+if (!drive) throw new Error('no free drive letter for the screenshot library')
+execFileSync('subst', [drive, libHost])
+const lib = drive + '\\Templates'
 const stage = mkdtempSync(join(tmpdir(), 'ftshots-'))
 copyFileSync(join(repo, 'app', 'build', 'bin', 'FolderTemplates.exe'), join(stage, 'FolderTemplates.exe'))
 writeFileSync(join(stage, 'portable'), 'screenshots')
@@ -160,7 +163,7 @@ const shots = [
     name: 'generate', args: [q(kitchen)], steps: [
       ['set', 'Client name', 'Acme Studio'],
       ['set', 'Project name', 'Spring Campaign'],
-      ['set', 'Project owner (optional)', 'Harvey'],
+      ['set', 'Project owner (optional)', 'Sam Rivera'],
     ],
   },
   { name: 'editor-scan', args: ['-edit', '-sourceFolder', q(kitchen)] },
@@ -237,7 +240,8 @@ try {
   server?.kill()
   browser.kill()
   await sleep(500)
-  rmSync(lib, { recursive: true, force: true })
+  try { execFileSync('subst', [drive, '/d']) } catch { /* already gone */ }
+  rmSync(libHost, { recursive: true, force: true })
   rmSync(stage, { recursive: true, force: true })
   rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 })
 }

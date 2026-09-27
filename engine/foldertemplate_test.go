@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	ft "github.com/harvey-withington/foldertemplate"
+	ft "github.com/harvey-withington/folder-templates-2.0/engine"
 )
 
 // --- helpers -----------------------------------------------------------------

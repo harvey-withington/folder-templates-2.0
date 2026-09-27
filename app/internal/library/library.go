@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	ft "github.com/harvey-withington/foldertemplate"
+	ft "github.com/harvey-withington/folder-templates-2.0/engine"
 
-	"github.com/harvey-withington/folder-templates/app/internal/settings"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/settings"
 )
 
 // Source says why a template is listed.

@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	ft "github.com/harvey-withington/foldertemplate"
+	ft "github.com/harvey-withington/folder-templates-2.0/engine"
 )
 
 // --- argument parsing --------------------------------------------------------

@@ -1,4 +1,4 @@
-module github.com/harvey-withington/foldertemplate
+module github.com/harvey-withington/folder-templates-2.0/engine
 
 go 1.24
 
