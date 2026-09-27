@@ -5,6 +5,7 @@
     initialValues,
     LivePreview,
     ParameterForm,
+    promptedParameters,
     type Inspection,
     type PreviewResult,
     type Values,
@@ -44,7 +45,14 @@
   const params = $derived(insp?.template?.parameters ?? [])
   const fixedTarget = $derived(nav.pickTarget)
   const blocked = $derived(!!preview?.rootExists && conflict === 'refuse')
-  const canGenerate = $derived(!!insp && !!preview && !previewError && !running && !blocked && target.trim() !== '')
+  // Answers that end up in file or folder names can't be blank; content-only
+  // ones can (an empty "optional" field just fills in nothing).
+  const missing = $derived(
+    promptedParameters(params).find((p) => p.replaceInFileNames && !(values[p.name] ?? '').trim()),
+  )
+  const canGenerate = $derived(
+    !!insp && !!preview && !previewError && !running && !blocked && !missing && target.trim() !== '',
+  )
 
   let stopProgress: (() => void) | undefined
 
@@ -200,7 +208,11 @@
               {/if}
             {/if}
           </div>
-          <p class="shortcut ft-muted">{t('app.generate.shortcut')}</p>
+          {#if missing && !running}
+            <p class="shortcut ft-muted">{t('app.generate.missing', { field: missing.prompt ?? missing.name })}</p>
+          {:else}
+            <p class="shortcut ft-muted">{t('app.generate.shortcut')}</p>
+          {/if}
         {/if}
       </div>
 

@@ -67,6 +67,7 @@
       "create": "Create {name}",
       "createPlain": "Create",
       "shortcut": "Ctrl+Enter creates from anywhere on this page.",
+      "missing": "Fill in “{field}” first — it's used in file or folder names.",
       "confirmOverwrite": "Files in {name} that the template also has will be replaced. This can't be undone.",
       "overwrite": "Replace files",
       "done": "Created {name}"

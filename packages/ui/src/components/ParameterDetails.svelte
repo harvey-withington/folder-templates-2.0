@@ -20,6 +20,8 @@
 
   const name = $derived(row.param.name.trim())
   const nameless = $derived(name === '')
+  /** No name but a pattern: a pure rename rule (e.g. strip "^_Template - "). */
+  const isRule = $derived(nameless && !!row.param.match)
 
   function testMatch() {
     ontestmatch?.(row.param.match || defaultMatch(name), name)
@@ -27,7 +29,7 @@
 </script>
 
 {#snippet matchField()}
-  <div class="field">
+  <div class="field wide">
     <label for="{uid}-match">{t('ft.param.match')}</label>
     <div class="with-button">
       <input
@@ -49,7 +51,7 @@
   </div>
 {/snippet}
 
-{#if nameless}
+{#if isRule}
   <div class="rule">
     <span class="rule-label">{t('ft.param.renameRule')}</span>
     <span class="hint ft-muted">{t('ft.param.renameRuleHint')}</span>
@@ -69,7 +71,7 @@
       <label for="{uid}-placeholder">{t('ft.param.placeholder')}</label>
       <input id="{uid}-placeholder" type="text" bind:value={row.param.placeholder} autocomplete="off" />
     </div>
-    {#if !nameless}
+    {#if !isRule}
       <div class="field">
         <label for="{uid}-default">{t('ft.param.defaultValue')}</label>
         <input id="{uid}-default" type="text" bind:value={row.param.defaultValue} autocomplete="off" />
@@ -90,6 +92,10 @@
   label {
     color: var(--ft-text-secondary);
     font-size: 12px;
+  }
+
+  .field.wide {
+    grid-column: 1 / -1;
   }
 
   .rule {

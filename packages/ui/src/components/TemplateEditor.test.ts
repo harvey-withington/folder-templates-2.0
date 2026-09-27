@@ -58,7 +58,9 @@ describe('TemplateEditor', () => {
     const fresh = screen.getByRole('group', { name: 'Unnamed parameter' })
     const nameInput = within(fresh).getByLabelText('Name')
     expect(nameInput).toHaveFocus()
-    expect(within(fresh).getByText('Rename rule')).toBeInTheDocument()
+    // A blank new parameter is not a rename rule until it has a pattern.
+    expect(within(fresh).queryByText('Rename rule')).not.toBeInTheDocument()
+    expect(within(fresh).getByLabelText('Prompt')).toBeInTheDocument()
 
     await user.type(nameInput, 'project')
     await user.type(within(card('project')).getByLabelText('Prompt'), 'Project?')

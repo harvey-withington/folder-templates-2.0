@@ -35,6 +35,9 @@ describe('ParameterRow', () => {
     expect(screen.getByText('Rename rule')).toBeInTheDocument()
     expect(screen.getByLabelText('Match pattern')).toHaveValue('^_draft')
     expect(screen.getByLabelText('Replace with')).toBeInTheDocument()
+    // Rules are never asked and only rename: no prompt, no mode chips.
+    expect(screen.queryByLabelText('Prompt')).not.toBeInTheDocument()
+    expect(screen.queryByRole('switch')).not.toBeInTheDocument()
   })
 
   it('hides extra fields until "More" is opened', async () => {

@@ -85,6 +85,7 @@
   background: var(--ft-subtle);
   color: var(--ft-text-strong);
   font: inherit;
+  white-space: nowrap;
   cursor: pointer;
   transition: background var(--ft-duration), border-color var(--ft-duration);
 }

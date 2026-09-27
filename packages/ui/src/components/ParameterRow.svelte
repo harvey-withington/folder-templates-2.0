@@ -38,6 +38,8 @@
 
   const p = $derived(row.param)
   const nameless = $derived(p.name.trim() === '')
+  /** No name but a pattern: a rename rule, which is never asked and only renames. */
+  const isRule = $derived(nameless && !!p.match)
   const cardLabel = $derived(nameless ? t('ft.param.cardUnnamed') : t('ft.param.card', { name: p.name }))
 
   onMount(() => {
@@ -74,6 +76,7 @@
       />
     </div>
 
+    {#if !isRule}
     <div class="field prompt">
       {#if row.internal}
         <span class="label-spacer" aria-hidden="true"></span>
@@ -116,6 +119,7 @@
         onclick={() => setInternal(!row.internal)}>{row.internal ? t('ft.param.internal') : t('ft.param.asked')}</button
       >
     </div>
+    {/if}
 
     <div class="actions">
       <button type="button" class="ft-btn ft-btn-icon" aria-label={t('ft.param.moveUp')} title={t('ft.param.moveUp')} disabled={index === 0} onclick={onmoveup}>
