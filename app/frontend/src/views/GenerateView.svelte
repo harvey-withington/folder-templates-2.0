@@ -5,6 +5,7 @@
     initialValues,
     LivePreview,
     ParameterForm,
+    previewValues,
     promptedParameters,
     type Inspection,
     type PreviewResult,
@@ -44,6 +45,10 @@
 
   const params = $derived(insp?.template?.parameters ?? [])
   const fixedTarget = $derived(nav.pickTarget)
+  // Blank name answers preview as their token ("{name}") instead of an error.
+  const shownValues = $derived(previewValues(params, values))
+  // Until the name answers are in, the preview shows placeholders, so a
+  // conflict isn't meaningful yet.
   const blocked = $derived(!!preview?.rootExists && conflict === 'refuse')
   // Answers that end up in file or folder names can't be blank; content-only
   // ones can (an empty "optional" field just fills in nothing).
@@ -179,7 +184,7 @@
             {/each}
           </datalist>
 
-          {#if preview?.rootExists}
+          {#if preview?.rootExists && !missing}
             <div class="conflict" role="alert">
               <TriangleAlert size={16} />
               <div>
@@ -218,7 +223,7 @@
 
       <div class="preview-panel">
         <h2>{t('app.generate.preview')}</h2>
-        <LivePreview dir={insp.dir} {values} {target} onresult={onPreview} />
+        <LivePreview dir={insp.dir} values={shownValues} {target} onresult={onPreview} />
       </div>
     </div>
   {/if}

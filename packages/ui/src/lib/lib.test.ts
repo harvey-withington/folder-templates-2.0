@@ -8,6 +8,7 @@ import {
   move,
   normalizeParameter,
   parameterFromToken,
+  previewValues,
   promptedParameters,
   sameDescriptor,
   toRows,
@@ -71,6 +72,16 @@ describe('params helpers', () => {
   it('fills defaults but keeps typed answers', () => {
     expect(initialValues(params)).toEqual({ a: 'x', c: '' })
     expect(initialValues(params, { c: 'typed', zzz: 'dropped' })).toEqual({ a: 'x', c: 'typed' })
+  })
+
+  it('previews blank name answers as their token', () => {
+    const ps = [
+      param({ name: 'name', prompt: 'Name?' }),
+      param({ name: 'owner', prompt: 'Owner?', replaceInFileNames: false }),
+      param({ name: 'hidden', prompt: null }),
+    ]
+    expect(previewValues(ps, { name: '  ', owner: '' })).toEqual({ name: '‹name›', owner: '' })
+    expect(previewValues(ps, { name: 'alpha' })).toEqual({ name: 'alpha' })
   })
 
   it('escapes the default match like the engine', () => {

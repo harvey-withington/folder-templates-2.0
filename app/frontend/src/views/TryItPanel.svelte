@@ -2,6 +2,7 @@
   import {
     LivePreview,
     ParameterForm,
+    previewValues,
     type TemplateDescriptor,
     type Values,
   } from '@harvey-withington/folder-templates-ui'
@@ -25,7 +26,7 @@
 <div class="try">
   <p class="ft-muted">{t('app.editor.tryHint')}</p>
   <ParameterForm parameters={descriptor.parameters} bind:values />
-  <LivePreview {dir} {values} {target} {descriptor} />
+  <LivePreview {dir} values={previewValues(descriptor.parameters, values)} {target} {descriptor} />
 </div>
 
 <style>

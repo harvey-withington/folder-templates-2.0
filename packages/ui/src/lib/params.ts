@@ -21,6 +21,23 @@ export function initialValues(parameters: Parameter[], existing: Values = {}): V
   return out
 }
 
+/**
+ * Answers for a live preview. A blank answer that goes into names would make
+ * the engine refuse outright (a folder called "{name}" resolves to no name at
+ * all), so for previewing, blanks show as a marker instead: the tree reads
+ * "‹name›" until it is filled in. Not "{name}": that is often the template
+ * folder's own name, and previewing into the folder that holds the template
+ * would then report the template itself as "already exists". Only the preview
+ * does this; a real run keeps the blank and the host blocks it.
+ */
+export function previewValues(parameters: Parameter[], values: Values): Values {
+  const out: Values = { ...values }
+  for (const p of promptedParameters(parameters)) {
+    if (p.replaceInFileNames && !(values[p.name] ?? '').trim()) out[p.name] = `‹${p.name}›`
+  }
+  return out
+}
+
 /** The engine's default name pattern for a parameter: the literal {name}. */
 export function defaultMatch(name: string): string {
   return '\\{' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\}'

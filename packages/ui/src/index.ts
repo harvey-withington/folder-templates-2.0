@@ -28,6 +28,7 @@ export {
   promptedParameters,
   isInternal,
   initialValues,
+  previewValues,
   defaultMatch,
   blankParameter,
   blankDescriptor,
