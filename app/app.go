@@ -28,6 +28,10 @@ type App struct {
 
 	mu        sync.Mutex
 	genCancel context.CancelFunc
+
+	// headless: served to a browser by --serve-ui, with no Wails window,
+	// so calls into the Wails runtime are skipped.
+	headless bool
 }
 
 func NewApp(intent launch.Intent, store *settings.Store, samplesDir string) *App {
@@ -93,7 +97,11 @@ func (a *App) GetLaunchIntent() launch.Intent {
 func (a *App) Version() string { return Version }
 
 // Quit closes the app.
-func (a *App) Quit() { runtime.Quit(a.ctx) }
+func (a *App) Quit() {
+	if !a.headless {
+		runtime.Quit(a.ctx)
+	}
+}
 
 // --- templates -----------------------------------------------------------------
 
@@ -245,7 +253,9 @@ func (a *App) Generate(req GenerateRequest) (*ft.Result, error) {
 			return
 		}
 		last = time.Now()
-		runtime.EventsEmit(a.ctx, "generate:progress", Progress{Done: done, Total: total, Path: rel})
+		if !a.headless {
+			runtime.EventsEmit(a.ctx, "generate:progress", Progress{Done: done, Total: total, Path: rel})
+		}
 	}
 
 	res, err := ft.GenerateContext(ctx, tpl, target, req.Values, nil, &ft.Options{Conflict: policy, Progress: progress})
@@ -276,6 +286,9 @@ func (a *App) CancelGenerate() {
 
 // PickFolder shows the native folder picker; "" when cancelled.
 func (a *App) PickFolder(title, initial string) (string, error) {
+	if a.headless {
+		return "", errors.New("the folder picker needs the desktop app")
+	}
 	return runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{Title: title, DefaultDirectory: existingDir(initial)})
 }
 

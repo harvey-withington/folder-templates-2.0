@@ -32,6 +32,13 @@ func main() {
 			os.Exit(shellInstall(os.Args[2:]))
 		case "--shell-uninstall":
 			os.Exit(shellUninstall())
+		case "--serve-ui":
+			// Serve the UI to a browser instead of opening a window
+			// (scripts/screenshots.mjs uses this with headless Edge).
+			if len(os.Args) < 3 {
+				log.Fatal("usage: FolderTemplates --serve-ui <host:port> [launch args]")
+			}
+			log.Fatal(serveUI(os.Args[2], os.Args[3:]))
 		}
 	}
 
