@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "frontend: build",
+      "type": "shell",
+      "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}/app/frontend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "app: build (debug)",
+      "detail": "Go build with the Wails dev tag and optimizations off, for Delve",
+      "type": "shell",
+      "command": "go build -tags dev -gcflags \"all=-N -l\" -o build/bin/FolderTemplates-debug.exe .",
+      "options": { "cwd": "${workspaceFolder}/app" },
+      "dependsOn": ["frontend: build"],
+      "group": "build",
+      "problemMatcher": ["$go"]
+    },
+    {
+      "label": "frontend: dev server",
+      "detail": "Vite with hot reload on http://localhost:5174",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/app/frontend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": {
+          "activeBegins": true,
+          "beginsPattern": "VITE",
+          "endsPattern": "Local:"
+        }
+      }
+    },
+    {
+      "label": "app: build (debug) + dev server",
+      "dependsOn": ["app: build (debug)", "frontend: dev server"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ]
+}

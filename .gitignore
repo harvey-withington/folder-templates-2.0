@@ -15,7 +15,9 @@ dist/
 # OS / editors
 .DS_Store
 Thumbs.db
-.vscode/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
 .idea/
 
 # Planning docs (kept locally, not versioned)

@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug app (Go)",
+      "type": "go",
+      "request": "launch",
+      "mode": "exec",
+      "program": "${workspaceFolder}/app/build/bin/FolderTemplates-debug.exe",
+      "cwd": "${workspaceFolder}/app",
+      "preLaunchTask": "app: build (debug)",
+      // App arguments, e.g. ["-edit", "-sourceFolder", "${workspaceFolder}/samples/Code Project/{name}"]
+      "args": []
+    },
+    {
+      "name": "Debug app (Go) + Vite hot reload",
+      "type": "go",
+      "request": "launch",
+      "mode": "exec",
+      "program": "${workspaceFolder}/app/build/bin/FolderTemplates-debug.exe",
+      "cwd": "${workspaceFolder}/app",
+      "preLaunchTask": "app: build (debug) + dev server",
+      "env": {
+        // Read by Wails' dev-tag build: load the UI from Vite instead of the embedded dist.
+        "frontenddevserverurl": "http://localhost:5174"
+      },
+      "args": []
+    },
+    {
+      "name": "Debug ft (CLI)",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/ft",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": ["generate", "samples/Code Project/{name}", "--dry-run", "--set", "name=demo"]
+    },
+    {
+      "name": "Debug engine tests",
+      "type": "go",
+      "request": "launch",
+      "mode": "test",
+      "program": "${workspaceFolder}/engine"
+    }
+  ]
+}
