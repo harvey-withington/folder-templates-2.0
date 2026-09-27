@@ -1,0 +1,16 @@
+# LF everywhere in the repo and working tree (gofmt, Vite and Wails expect it).
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.nsi text eol=crlf
+
+# Fixtures are compared byte-for-byte: never convert them.
+engine/testdata/** -text
+testdata/** -text
+samples/** -text
+
+*.ico binary
+*.png binary
