@@ -34,6 +34,12 @@ func Default() (*Integration, error) {
 	if err != nil {
 		return nil, err
 	}
+	return For(exe)
+}
+
+// For targets exe (the program Explorer should launch) and the real user
+// locations.
+func For(exe string) (*Integration, error) {
 	sendTo, err := windows.KnownFolderPath(windows.FOLDERID_SendTo, 0)
 	if err != nil {
 		return nil, err

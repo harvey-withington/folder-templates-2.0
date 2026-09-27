@@ -10,6 +10,9 @@ type Integration struct{}
 // Default returns an Integration that does nothing.
 func Default() (*Integration, error) { return &Integration{}, nil }
 
+// For returns an Integration that does nothing.
+func For(string) (*Integration, error) { return &Integration{}, nil }
+
 // Status reports every feature off.
 func (in *Integration) Status() map[Feature]bool {
 	out := map[Feature]bool{}

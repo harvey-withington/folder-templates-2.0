@@ -347,18 +347,24 @@ func (a *App) SamplesFolder() string { return a.samples }
 
 // --- shell integration ------------------------------------------------------------
 
-// ShellStatus reports which Explorer integrations point at this app.
+// ShellStatus reports which Explorer integrations point at this app. When
+// there is no app Explorer could launch (a debug build with no release build
+// beside it), everything reads as off.
 func (a *App) ShellStatus() (map[shell.Feature]bool, error) {
-	in, err := shell.Default()
+	in, err := integration()
 	if err != nil {
-		return nil, err
+		off := map[shell.Feature]bool{}
+		for _, f := range shell.Features {
+			off[f] = false
+		}
+		return off, nil
 	}
 	return in.Status(), nil
 }
 
 // SetShellFeature turns one Explorer integration on or off.
 func (a *App) SetShellFeature(feature shell.Feature, on bool) (map[shell.Feature]bool, error) {
-	in, err := shell.Default()
+	in, err := integration()
 	if err != nil {
 		return nil, err
 	}
@@ -366,4 +372,24 @@ func (a *App) SetShellFeature(feature shell.Feature, on bool) (map[shell.Feature
 		return nil, err
 	}
 	return in.Status(), nil
+}
+
+// integration targets the exe Explorer should launch. That is normally the
+// running app, but never a debug build: it is a console program that only
+// starts under the debugger (the Wails dev tag looks for the frontend relative
+// to the working directory), so Explorer would flash a terminal and nothing
+// more. A debug build registers the release FolderTemplates.exe beside it.
+func integration() (*shell.Integration, error) {
+	exe, err := os.Executable()
+	if err != nil {
+		return nil, err
+	}
+	if devBuild {
+		release := filepath.Join(filepath.Dir(exe), "FolderTemplates.exe")
+		if info, err := os.Stat(release); err != nil || info.IsDir() {
+			return nil, errors.New("this is a debug build, which Explorer can't start; build the app with `wails build` (or scripts/build.ps1) and turn this on again")
+		}
+		exe = release
+	}
+	return shell.For(exe)
 }
