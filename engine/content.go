@@ -67,8 +67,9 @@ func processContent(src io.Reader, dst io.Writer, bindings []binding) error {
 }
 
 // processContentFile applies processContent from srcPath to dstPath with the
-// size ceiling enforced up front.
-func processContentFile(srcPath, dstPath string, bindings []binding, limit int64) error {
+// size ceiling enforced up front. With overwrite, an existing dstPath is
+// replaced atomically; otherwise dstPath must not exist.
+func processContentFile(srcPath, dstPath string, bindings []binding, limit int64, overwrite bool) error {
 	info, err := os.Stat(srcPath)
 	if err != nil {
 		return err
@@ -81,20 +82,16 @@ func processContentFile(srcPath, dstPath string, bindings []binding, limit int64
 		return err
 	}
 	defer in.Close()
-	out, err := os.OpenFile(dstPath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, info.Mode().Perm())
-	if err != nil {
-		return err
-	}
-	if err := processContent(in, out, bindings); err != nil {
-		out.Close()
-		os.Remove(dstPath)
-		return fmt.Errorf("%s: %w", srcPath, err)
-	}
-	return out.Close()
+	return writeOutput(dstPath, info.Mode().Perm(), overwrite, func(out io.Writer) error {
+		if err := processContent(in, out, bindings); err != nil {
+			return fmt.Errorf("%s: %w", srcPath, err)
+		}
+		return nil
+	})
 }
 
 // copyFile copies byte-for-byte (binary-safe by construction).
-func copyFile(srcPath, dstPath string) error {
+func copyFile(srcPath, dstPath string, overwrite bool) error {
 	info, err := os.Stat(srcPath)
 	if err != nil {
 		return err
@@ -104,14 +101,43 @@ func copyFile(srcPath, dstPath string) error {
 		return err
 	}
 	defer in.Close()
-	out, err := os.OpenFile(dstPath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, info.Mode().Perm())
+	return writeOutput(dstPath, info.Mode().Perm(), overwrite, func(out io.Writer) error {
+		_, err := io.Copy(out, in)
+		return err
+	})
+}
+
+// writeOutput creates dstPath and fills it via fill. Without overwrite the
+// file is created exclusively and removed again on failure. With overwrite the
+// content goes to a temp file beside dstPath that is renamed over it only once
+// complete — a failed write never destroys the file being replaced.
+func writeOutput(dstPath string, perm os.FileMode, overwrite bool, fill func(io.Writer) error) error {
+	target := dstPath
+	if overwrite {
+		target = dstPath + ".ft-partial"
+	}
+	flags := os.O_WRONLY | os.O_CREATE | os.O_EXCL
+	if overwrite {
+		flags = os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+	}
+	out, err := os.OpenFile(target, flags, perm)
 	if err != nil {
 		return err
 	}
-	if _, err := io.Copy(out, in); err != nil {
+	if err := fill(out); err != nil {
 		out.Close()
-		os.Remove(dstPath)
+		os.Remove(target)
 		return err
 	}
-	return out.Close()
+	if err := out.Close(); err != nil {
+		os.Remove(target)
+		return err
+	}
+	if overwrite {
+		if err := os.Rename(target, dstPath); err != nil {
+			os.Remove(target)
+			return err
+		}
+	}
+	return nil
 }

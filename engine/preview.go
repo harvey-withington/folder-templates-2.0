@@ -13,6 +13,17 @@ type PreviewEntry struct {
 	OutputRel string `json:"outputRel"` // renamed path relative to targetParent
 	IsDir     bool   `json:"isDir"`
 	Processed bool   `json:"processed"` // content token replacement applied
+	// Exists is set by PreviewAt when the output path is already on disk.
+	Exists bool `json:"exists,omitempty"`
+}
+
+// PreviewResult is PreviewAt's dry run against a concrete target folder.
+type PreviewResult struct {
+	RootName   string         `json:"rootName"`
+	RootPath   string         `json:"rootPath"`
+	RootExists bool           `json:"rootExists"`
+	Entries    []PreviewEntry `json:"entries"`
+	Warnings   []string       `json:"warnings"`
 }
 
 // Preview runs the generator's planning phase in-memory: the resulting tree
@@ -40,6 +51,56 @@ func Preview(t *Template, values, extra map[string]string, opts *Options) ([]Pre
 		})
 	}
 	return out, plan.Warnings, nil
+}
+
+// PreviewAt is Preview against a real target parent: it also applies the
+// recursion guard and marks entries (and the root) that already exist, so a
+// UI can show conflicts before the user picks a conflict policy.
+func PreviewAt(t *Template, targetParent string, values, extra map[string]string, opts *Options) (*PreviewResult, error) {
+	if err := guardTarget(t.dir, targetParent); err != nil {
+		return nil, err
+	}
+	entries, warnings, err := Preview(t, values, extra, opts)
+	if err != nil {
+		return nil, err
+	}
+	res := &PreviewResult{
+		RootName: entries[0].OutputRel,
+		RootPath: filepath.Join(targetParent, entries[0].OutputRel),
+		Entries:  entries,
+		Warnings: warnings,
+	}
+	if res.Warnings == nil {
+		res.Warnings = []string{}
+	}
+	if _, err := os.Stat(res.RootPath); err != nil {
+		return res, nil // nothing below a missing root can exist
+	}
+	res.RootExists = true
+	for i := range res.Entries {
+		p := filepath.Join(targetParent, filepath.FromSlash(res.Entries[i].OutputRel))
+		if _, err := os.Stat(p); err == nil {
+			res.Entries[i].Exists = true
+		}
+	}
+	return res, nil
+}
+
+// ResolveDefaultTarget returns the folder a template generates into when the
+// caller names none — the C# app's rule: DefaultTargetPath if set (a relative
+// path, ../ allowed, resolves against the template folder's parent; an
+// absolute path is taken as-is), otherwise the template folder's parent.
+func ResolveDefaultTarget(t *Template) string {
+	parent := filepath.Dir(t.dir)
+	dtp := strings.TrimSpace(t.DefaultTargetPath)
+	if dtp == "" {
+		return parent
+	}
+	p := filepath.FromSlash(dtp)
+	if !filepath.IsAbs(p) {
+		p = filepath.Join(parent, p)
+	}
+	return filepath.Clean(p)
 }
 
 // RenderFile returns the before/after content of one .ft$ file for the

@@ -16,10 +16,43 @@ type Options struct {
 	MatchTimeout time.Duration
 	// ContentSizeLimit is the max size of a .ft$ file. Default 10 MB.
 	ContentSizeLimit int64
+	// Conflict decides what Generate does when the output root already
+	// exists. Default ConflictRefuse.
+	Conflict ConflictPolicy
+	// Progress, when set, is called after each output entry is written with
+	// the count done so far, the total, and the entry's output-relative path.
+	Progress func(done, total int, outputRel string)
+}
+
+// ConflictPolicy says how Generate treats an output root that already exists.
+type ConflictPolicy string
+
+const (
+	// ConflictRefuse fails with ErrTargetExists before writing anything.
+	ConflictRefuse ConflictPolicy = "refuse"
+	// ConflictMerge writes into the existing root, creating what is missing
+	// and skipping files that already exist (reported in Result.Skipped).
+	ConflictMerge ConflictPolicy = "merge"
+	// ConflictOverwrite writes into the existing root and replaces files that
+	// already exist (reported in Result.Overwritten) — the C# app's behaviour.
+	ConflictOverwrite ConflictPolicy = "overwrite"
+)
+
+// ParseConflictPolicy maps a user-facing string to a policy; "" is Refuse.
+func ParseConflictPolicy(s string) (ConflictPolicy, error) {
+	switch ConflictPolicy(strings.ToLower(strings.TrimSpace(s))) {
+	case "", ConflictRefuse:
+		return ConflictRefuse, nil
+	case ConflictMerge:
+		return ConflictMerge, nil
+	case ConflictOverwrite:
+		return ConflictOverwrite, nil
+	}
+	return "", fmt.Errorf("unknown conflict policy %q (want refuse, merge or overwrite)", s)
 }
 
 func (o *Options) withDefaults() Options {
-	out := Options{MatchTimeout: 2 * time.Second, ContentSizeLimit: 10 << 20}
+	out := Options{MatchTimeout: 2 * time.Second, ContentSizeLimit: 10 << 20, Conflict: ConflictRefuse}
 	if o != nil {
 		if o.MatchTimeout > 0 {
 			out.MatchTimeout = o.MatchTimeout
@@ -27,6 +60,10 @@ func (o *Options) withDefaults() Options {
 		if o.ContentSizeLimit > 0 {
 			out.ContentSizeLimit = o.ContentSizeLimit
 		}
+		if o.Conflict != "" {
+			out.Conflict = o.Conflict
+		}
+		out.Progress = o.Progress
 	}
 	return out
 }

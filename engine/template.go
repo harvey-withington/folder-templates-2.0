@@ -90,15 +90,18 @@ func Load(dir string) (*Template, error) {
 }
 
 // Save writes the descriptor to <dir>/.ft/template.json in camelCase,
-// matching the C# app's serializer. dir may be a new folder; .ft/ is created.
+// matching the C# app's serializer. dir may be a new folder; .ft/ is created
+// and, on Windows, marked hidden as the C# app did.
 func Save(t *Template, dir string) error {
 	abs, err := filepath.Abs(dir)
 	if err != nil {
 		return err
 	}
-	if err := os.MkdirAll(filepath.Join(abs, ConfigDirName), 0o755); err != nil {
+	cfgDir := filepath.Join(abs, ConfigDirName)
+	if err := os.MkdirAll(cfgDir, 0o755); err != nil {
 		return err
 	}
+	hideDir(cfgDir)
 	raw, err := json.MarshalIndent(t, "", "  ")
 	if err != nil {
 		return err
