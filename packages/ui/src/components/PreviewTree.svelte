@@ -186,7 +186,18 @@
     color: var(--ft-accent);
   }
 
+  /* Long names truncate; icons, badges and markers keep their size. The name
+     and the secondary "from …" text shrink together, each with an ellipsis;
+     "from" keeps enough width never to collapse to a fragment. */
+  .icon,
+  .badge,
+  .exists {
+    flex: none;
+  }
+
   .name {
+    flex: 0 1 auto;
+    min-width: 3em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -198,11 +209,16 @@
   }
 
   .from {
+    flex: 0 1 auto;
+    min-width: 7em;
     font-size: 12px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .badge {
+    white-space: nowrap;
     padding: 0 6px;
     border: 1px solid var(--ft-template);
     border-radius: 999px;

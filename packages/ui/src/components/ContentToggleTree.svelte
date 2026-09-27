@@ -151,6 +151,7 @@
 
   .icon {
     display: inline-flex;
+    flex: none;
     color: var(--ft-text-muted);
   }
 
@@ -158,13 +159,18 @@
     color: var(--ft-accent);
   }
 
+  /* Long names truncate; the badge and switch keep their size. */
   .name {
+    flex: 0 1 auto;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .badge {
+    flex: none;
+    white-space: nowrap;
     padding: 0 5px;
     border-radius: 4px;
     background: var(--ft-subtle);
