@@ -1,0 +1,24 @@
+{
+  "Name": "YouTube Video Project",
+  "Description": "Standard video structure",
+  "DefaultTargetPath": "D:/Projects/Videos",
+  "Parameters": [
+    {
+      "Name": "videoName",
+      "Type": "text",
+      "Prompt": "Video name?",
+      "Placeholder": "e.g. episode-042",
+      "DefaultValue": null,
+      "Match": "\\{videoName\\}",
+      "ReplaceInFileNames": true,
+      "ReplaceInFiles": true
+    },
+    {
+      "Name": "channel",
+      "Type": "text",
+      "DefaultValue": "OOP",
+      "ReplaceInFileNames": false,
+      "ReplaceInFiles": true
+    }
+  ]
+}

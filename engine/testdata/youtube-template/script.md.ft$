@@ -1,0 +1,6 @@
+# {{$videoName}}
+
+Channel: {{$channel}}
+Date: {{$bruvDate}}
+Case-insensitive: {{$VIDEONAME}}
+Unknown token passes through: {{$unknown}}
