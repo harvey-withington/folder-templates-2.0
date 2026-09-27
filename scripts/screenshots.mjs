@@ -54,11 +54,11 @@ const kitchen = templateIn('Kitchen Sink')
 const video = templateIn('Video Episode')
 const code = templateIn('Code Project')
 
-function writeSettings() {
+function writeSettings(theme = 'dark') {
   const now = Date.now()
   const iso = (ms) => new Date(ms).toISOString()
   writeFileSync(join(stage, 'settings.json'), JSON.stringify({
-    theme: 'dark',
+    theme,
     libraryFolders: [lib],
     recents: [
       { path: video, lastUsed: iso(now - 3 * 3600e3) },
@@ -130,7 +130,9 @@ const pageHelpers = `
       return true
     },
     click(text) {
-      const els = document.querySelectorAll('button, [role="tab"]')
+      // Tabs first: a tab and a button can share a label (the editor's
+      // "Files" tab vs each parameter's "Files" chip).
+      const els = [...document.querySelectorAll('[role="tab"]'), ...document.querySelectorAll('button:not([role="tab"])')]
       for (const el of els) {
         const name = (el.getAttribute('aria-label') || el.textContent || '').trim()
         if (name === text) { el.click(); return true }
@@ -177,6 +179,7 @@ const shots = [
     ],
   },
   { name: 'settings', args: [], steps: [['click', 'Settings']] },
+  { name: 'editor-files-light', theme: 'light', args: ['-edit', '-sourceFolder', q(kitchen)], steps: [['click', 'Files']] },
   {
     name: 'conflict', args: [q(kitchen)],
     before() {
@@ -212,7 +215,7 @@ try {
 
   for (const shot of shots) {
     if (only.length && !only.includes(shot.name)) continue
-    writeSettings()
+    writeSettings(shot.theme)
     shot.before?.()
     server = spawn(join(stage, 'FolderTemplates.exe'), ['--serve-ui', `127.0.0.1:${UI_PORT}`, ...shot.args], { stdio: 'ignore' })
     await waitForHttp(`http://127.0.0.1:${UI_PORT}/`)

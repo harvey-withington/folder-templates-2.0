@@ -180,6 +180,7 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; }
   background: #16161a; border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 0.72rem; color: #a1a1aa;
 }
+.win-bar-light { background: #e4e7ec; border-bottom-color: rgba(0, 0, 0, 0.08); color: #42526e; }
 .win-bar img { width: 15px; height: 15px; }
 .win-bar span { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .win-bar i { width: 26px; height: 2px; position: relative; opacity: 0.55; }
