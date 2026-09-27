@@ -37,6 +37,14 @@
       "args": ["generate", "samples/Code Project/{name}", "--dry-run", "--set", "name=demo"]
     },
     {
+      "name": "Website (Edge)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5180",
+      "webRoot": "${workspaceFolder}/website",
+      "preLaunchTask": "website: serve"
+    },
+    {
       "name": "Debug engine tests",
       "type": "go",
       "request": "launch",

@@ -42,6 +42,31 @@
       "dependsOn": ["app: build (debug)", "frontend: dev server"],
       "dependsOrder": "parallel",
       "problemMatcher": []
+    },
+    {
+      "label": "website: serve",
+      "detail": "Landing page on http://localhost:5180 (refresh to see edits)",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/scripts/serve-website.mjs"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "website",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": {
+          "activeBegins": true,
+          "beginsPattern": "^Serving",
+          "endsPattern": "^Serving"
+        }
+      }
+    },
+    {
+      "label": "website: screenshots",
+      "detail": "Re-capture website/images/screenshots from the built app, headlessly",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/scripts/screenshots.mjs"],
+      "problemMatcher": []
     }
   ]
 }
