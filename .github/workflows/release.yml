@@ -41,3 +41,5 @@ jobs:
             dist/*.exe
             dist/SHA256SUMS.txt
           generate_release_notes: true
+          # v2.0.0a, v2.0.0b1, v2.0.0-rc1 ... publish as pre-releases
+          prerelease: ${{ contains(github.ref_name, 'a') || contains(github.ref_name, 'b') || contains(github.ref_name, 'rc') || contains(github.ref_name, '-') }}
