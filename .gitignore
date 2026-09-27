@@ -1,0 +1,20 @@
+# Go
+*.exe
+/build/bin/
+
+# Node
+node_modules/
+dist/
+.svelte-kit/
+
+# Wails
+**/frontend/wailsjs/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Planning docs (kept locally, not versioned)
+/plan/
