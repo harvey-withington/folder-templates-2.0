@@ -30,10 +30,10 @@ type Recent struct {
 	LastUsed time.Time `json:"lastUsed"`
 }
 
-// WindowBounds is the last window placement.
+// WindowBounds is the last window size, in device-independent pixels. The
+// position is deliberately not kept: the window opens on the display it was
+// launched from (see internal/placement).
 type WindowBounds struct {
-	X         int  `json:"x"`
-	Y         int  `json:"y"`
 	Width     int  `json:"width"`
 	Height    int  `json:"height"`
 	Maximised bool `json:"maximised"`

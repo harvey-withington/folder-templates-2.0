@@ -42,7 +42,7 @@ func serveUI(addr string, args []string) error {
 	if err != nil {
 		return err
 	}
-	app := NewApp(launch.Parse(args), store, findSamples())
+	app := NewApp(launch.Parse(args), store, findSamples(), 0)
 	app.ctx = context.Background()
 	app.headless = true
 

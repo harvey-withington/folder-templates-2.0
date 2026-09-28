@@ -14,11 +14,15 @@
     },
     "./styles.css": "./src/styles.css",
     "./locales/en.json": "./src/locales/en.json",
-    "./vite": "./lucide-per-icon.ts"
+    "./vite": {
+      "types": "./lucide-per-icon.d.ts",
+      "default": "./lucide-per-icon.js"
+    }
   },
   "files": [
     "src",
-    "lucide-per-icon.ts",
+    "lucide-per-icon.js",
+    "lucide-per-icon.d.ts",
     "!src/**/*.test.ts"
   ],
   "scripts": {

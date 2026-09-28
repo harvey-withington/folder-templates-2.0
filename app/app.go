@@ -14,6 +14,7 @@ import (
 
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/launch"
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/library"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/placement"
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/settings"
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/shell"
 )
@@ -25,6 +26,7 @@ type App struct {
 	intent   launch.Intent
 	settings *settings.Store
 	samples  string
+	monitor  placement.Monitor
 
 	mu        sync.Mutex
 	genCancel context.CancelFunc
@@ -34,8 +36,8 @@ type App struct {
 	headless bool
 }
 
-func NewApp(intent launch.Intent, store *settings.Store, samplesDir string) *App {
-	return &App{intent: intent, settings: store, samples: samplesDir}
+func NewApp(intent launch.Intent, store *settings.Store, samplesDir string, monitor placement.Monitor) *App {
+	return &App{intent: intent, settings: store, samples: samplesDir, monitor: monitor}
 }
 
 func (a *App) startup(ctx context.Context) {
@@ -48,26 +50,31 @@ func (a *App) startup(ctx context.Context) {
 	}
 }
 
+// domReady centres the (still hidden) window on the display the app was
+// launched from, at the remembered size, then shows it.
 func (a *App) domReady(ctx context.Context) {
+	width, height, maximised := defaultWidth, defaultHeight, false
 	if w := a.settings.Get().Window; w != nil {
-		runtime.WindowSetPosition(ctx, w.X, w.Y)
-		if w.Maximised {
-			runtime.WindowMaximise(ctx)
-		}
+		width, height, maximised = w.Width, w.Height, w.Maximised
+	}
+	if err := placement.Place(a.monitor, width, height); err != nil {
+		runtime.WindowCenter(ctx)
+	}
+	if maximised {
+		runtime.WindowMaximise(ctx)
 	}
 	runtime.WindowShow(ctx)
 }
 
 func (a *App) beforeClose(ctx context.Context) bool {
 	maximised := runtime.WindowIsMaximised(ctx)
-	x, y := runtime.WindowGetPosition(ctx)
 	w, h := runtime.WindowGetSize(ctx)
 	_, _ = a.settings.Update(func(s *settings.Settings) {
 		if maximised && s.Window != nil {
 			s.Window.Maximised = true // keep the restored size for next time
 			return
 		}
-		s.Window = &settings.WindowBounds{X: x, Y: y, Width: w, Height: h, Maximised: maximised}
+		s.Window = &settings.WindowBounds{Width: w, Height: h, Maximised: maximised}
 	})
 	return false
 }

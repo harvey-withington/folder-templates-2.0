@@ -7,6 +7,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": true,
     "noEmit": true,
     "strict": true,
     "types": [
@@ -18,6 +20,6 @@
     "src/**/*.ts",
     "src/**/*.svelte",
     "vite.config.ts",
-    "lucide-per-icon.ts"
+    "lucide-per-icon.js"
   ]
 }

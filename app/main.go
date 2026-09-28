@@ -14,6 +14,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/launch"
+	"github.com/harvey-withington/folder-templates-2.0/app/internal/placement"
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/settings"
 	"github.com/harvey-withington/folder-templates-2.0/app/internal/shell"
 )
@@ -23,6 +24,9 @@ var assets embed.FS
 
 // Version is set at build time with -ldflags "-X main.Version=…".
 var Version = "dev"
+
+// The window size on a first run, in device-independent pixels.
+const defaultWidth, defaultHeight = 1040, 700
 
 func main() {
 	// Installer hooks: set up or remove Explorer integration and exit.
@@ -42,6 +46,9 @@ func main() {
 		}
 	}
 
+	// Before any window of ours exists, while the launching Explorer window
+	// is still in the foreground.
+	monitor := placement.LaunchMonitor()
 	intent := launch.Parse(os.Args[1:])
 
 	path, err := settings.DefaultPath()
@@ -53,21 +60,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	width, height := 1040, 700
-	startHidden := false
+	width, height := defaultWidth, defaultHeight
 	if w := store.Get().Window; w != nil {
 		width, height = w.Width, w.Height
-		startHidden = true // shown in domReady once positioned
 	}
 
-	app := NewApp(intent, store, findSamples())
+	app := NewApp(intent, store, findSamples(), monitor)
 	err = wails.Run(&options.App{
 		Title:            "Folder Templates",
 		Width:            width,
 		Height:           height,
 		MinWidth:         720,
 		MinHeight:        480,
-		StartHidden:      startHidden,
+		StartHidden:      true, // shown in domReady once placed
 		BackgroundColour: &options.RGBA{R: 24, G: 24, B: 27, A: 255},
 		AssetServer:      &assetserver.Options{Assets: assets},
 		OnStartup:        app.startup,
@@ -76,7 +81,8 @@ func main() {
 		DragAndDrop:      &options.DragAndDrop{EnableFileDrop: true, DisableWebViewDrop: true},
 		Bind:             []interface{}{app},
 		Windows: &windows.Options{
-			Theme: windows.SystemDefault,
+			Theme:           windows.SystemDefault,
+			WindowClassName: placement.WindowClass,
 		},
 	})
 	if err != nil {

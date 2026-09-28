@@ -53,7 +53,7 @@ export interface Settings {
   openFolderAfter: boolean
   closeAfter: boolean
   showSamples: boolean
-  window?: { x: number; y: number; width: number; height: number; maximised: boolean }
+  window?: { width: number; height: number; maximised: boolean }
 }
 
 export interface GenerateRequest {

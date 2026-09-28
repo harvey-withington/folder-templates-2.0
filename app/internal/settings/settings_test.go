@@ -26,7 +26,7 @@ func TestUpdatePersistsAndReloads(t *testing.T) {
 		s.Theme = "light"
 		s.LibraryFolders = []string{`C:\T`, `c:\t\`, " ", `D:\U`}
 		s.TouchRecent(`C:\T\x`, time.Unix(100, 0))
-		s.Window = &WindowBounds{X: 5, Y: 6, Width: 900, Height: 600}
+		s.Window = &WindowBounds{Width: 900, Height: 600}
 	})
 	if err != nil {
 		t.Fatal(err)
